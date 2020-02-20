@@ -6,6 +6,7 @@ class Settings:
         self.bg_color = (230, 230, 230)
 
         # 飞船设置
+        self.ship_lives = 2
         self.ship_speed = 1.5
 
         # 子弹设置
@@ -18,4 +19,4 @@ class Settings:
         # 外星人设置
         self.alien_dir = 1
         self.alien_x_speed = 1
-        self.alien_y_speed = 5
+        self.alien_y_speed = 20

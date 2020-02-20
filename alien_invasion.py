@@ -2,42 +2,10 @@ import sys
 import pygame
 
 from ship import Ship
-from alien import Alien
 from settings import Settings
+from button import Button
+from stats import Stats
 import tools
-
-def screen_update(settings, screen, ship, bullets, aliens):
-    screen.fill(settings.bg_color)
-    for bullet in bullets.sprites():
-        bullet.draw(screen)
-    ship.blitme()
-    aliens.draw(screen)
-    pygame.display.flip()
-
-def bullets_update(bullets):
-    bullets.update()
-    for bullet in bullets.copy():
-        if bullet.rect.bottom <= 0:
-            bullets.remove(bullet)
-
-def aliens_init(screen, alien):
-    aliens = pygame.sprite.Group()
-    screen_rect = screen.get_rect()
-    n_x = int((screen_rect.width - alien.rect.width) / (2 * alien.rect.width))
-    n_y = int((screen_rect.height - 6 * alien.rect.height) / (2 * alien.rect.height))
-    for y in range(n_y):
-        for x in range(n_x):
-            aliens.add(Alien(screen, x, y))
-    return aliens
-
-def aliens_update(aliens, settings):
-    for alien in aliens.sprites():
-        if alien.rect.right >= alien.screen_rect.right or alien.rect.left <= 0:
-            for alien in aliens.sprites():
-                alien.y += settings.alien_y_speed
-            settings.alien_dir *= -1
-            break
-    aliens.update(settings)
 
 def run_game():
     pygame.init()
@@ -45,18 +13,22 @@ def run_game():
     screen = pygame.display.set_mode((settings.screen_width, settings.screen_height))
     pygame.display.set_caption("Alien Invasion")
 
-    ship = Ship(screen)
+    ship = Ship(screen, settings)
     bullets = pygame.sprite.Group()
-    alien = Alien(screen, 0, 0)
-    aliens = aliens_init(screen, alien)
+    aliens = pygame.sprite.Group()
+    #tools.aliens_init(screen, aliens)
+    stats = Stats()
+    button_start = Button(screen, "start")
 
     while True:
-        tools.event_handler(settings, ship, bullets)
+        tools.event_handler(settings, screen, aliens, ship, bullets, button_start, stats)
 
-        ship.update(settings)
-        bullets_update(bullets)
-        aliens_update(aliens, settings)
+        if stats.game_active:
+            ship.update(settings)
+            tools.bullets_update(bullets, aliens)
+            tools.aliens_update(aliens, settings)
+            tools.go(screen, ship, bullets, aliens, stats)
 
-        screen_update(settings, screen, ship, bullets, aliens)
+        tools.screen_update(settings, screen, ship, bullets, aliens, stats, button_start)
 
 run_game()
