@@ -14,3 +14,8 @@ class Settings:
         self.bullet_color = (60, 60, 60)
         self.bullet_speed = 1
         self.bullet_limit = 3
+
+        # 外星人设置
+        self.alien_dir = 1
+        self.alien_x_speed = 1
+        self.alien_y_speed = 5
