@@ -3,7 +3,8 @@ from pygame.sprite import Sprite
 
 class Ship(Sprite):
     def __init__(self, screen, settings):
-        self.lives = settings.ship_lives
+        super().__init__()
+        #self.lives = settings.ship_lives
         self.screen = screen
         self.screen_rect = screen.get_rect()
         self.image = pygame.image.load("images/ship.bmp")

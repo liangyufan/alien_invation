@@ -5,6 +5,7 @@ from ship import Ship
 from settings import Settings
 from button import Button
 from stats import Stats
+from scoreboard import Scoreboard
 import tools
 
 def run_game():
@@ -17,8 +18,9 @@ def run_game():
     bullets = pygame.sprite.Group()
     aliens = pygame.sprite.Group()
     #tools.aliens_init(screen, aliens)
-    stats = Stats()
+    stats = Stats(settings)
     button_start = Button(screen, "start")
+    sb = Scoreboard(screen, settings, stats)
 
     while True:
         tools.event_handler(settings, screen, aliens, ship, bullets, button_start, stats)
@@ -27,8 +29,8 @@ def run_game():
             ship.update(settings)
             tools.bullets_update(bullets, aliens)
             tools.aliens_update(aliens, settings)
-            tools.go(screen, ship, bullets, aliens, stats)
+            tools.go(settings, screen, ship, bullets, aliens, stats)
 
-        tools.screen_update(settings, screen, ship, bullets, aliens, stats, button_start)
+        tools.screen_update(settings, screen, ship, bullets, aliens, stats, button_start, sb)
 
 run_game()
