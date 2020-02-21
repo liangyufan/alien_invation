@@ -23,13 +23,13 @@ def run_game():
     sb = Scoreboard(screen, settings, stats)
 
     while True:
-        tools.event_handler(settings, screen, aliens, ship, bullets, button_start, stats)
+        tools.event_handler(settings, screen, aliens, ship, bullets, button_start, stats, sb)
 
         if stats.game_active:
             ship.update(settings)
             tools.bullets_update(bullets, aliens)
             tools.aliens_update(aliens, settings)
-            tools.go(settings, screen, ship, bullets, aliens, stats)
+            tools.go(settings, screen, ship, bullets, aliens, stats, sb)
 
         tools.screen_update(settings, screen, ship, bullets, aliens, stats, button_start, sb)
 

@@ -16,6 +16,7 @@ class Settings:
 
         # 加快游戏节奏因子
         self.speedup_scale = 1.1
+        self.score_scale = 1.5
 
         self.initialize_dynamic_settings()
 
@@ -26,9 +27,11 @@ class Settings:
         self.alien_dir = 1
         self.alien_x_speed = 1
         self.alien_y_speed = 10
+        self.alien_point = 10
 
     def increase_speed(self):
         self.ship_speed *= self.speedup_scale
         self.bullet_speed *= self.speedup_scale
         self.alien_x_speed *= self.speedup_scale
         self.alien_y_speed *= self.speedup_scale
+        self.alien_point = int(self.alien_point * self.score_scale)
